@@ -1,0 +1,40 @@
+spring.application.name: delivery-broken
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: parcel-position
+          consumer:
+            useNativeDecoding: true
+        inputTable:
+          destination: parcel-destination
+          consumer:
+            useNativeDecoding: true
+        output:
+          destination: parcel-delivered
+          producer:
+            useNativeEncoding: true  
+      kafka:
+        streams:
+          bindings:
+            input:
+              consumer:
+                keySerde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                valueSerde: org.apache.kafka.common.serialization.Serdes$StringSerde
+            inputTable:
+              consumer:
+                keySerde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                valueSerde: org.apache.kafka.common.serialization.Serdes$StringSerde
+            output:
+              producer:
+                keySerde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                valueSerde: org.apache.kafka.common.serialization.Serdes$StringSerde
+          binder:
+            brokers: localhost
+            configuration:
+              default:
+                key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+              commit.interval.ms: 1000
+            application-id: delivery                                  
